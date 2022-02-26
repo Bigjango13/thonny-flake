@@ -10,7 +10,7 @@ setuptools.setup(
     description="A plugin that adds flake8 to the Thonny python IDE.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/bigjango13",
+    url="https://github.com/bigjango13/ThonnyFlake8",
     packages=["thonnycontrib.ThonnyFlake8"],
     classifiers=[
         "Programming Language :: Python :: 3",
