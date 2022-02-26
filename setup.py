@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ThonnyFlake8",
-    version="1.0.0",
+    version="1.0.1",
     author="Bigjango13",
     description="A plugin that adds flake8 to the Thonny python IDE.",
     long_description=long_description,
