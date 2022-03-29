@@ -1,11 +1,15 @@
-from thonny.assistance import SubprocessProgramAnalyzer, add_program_analyzer
-from thonny import ui_utils, get_workbench
-import subprocess
+#!/bin/env python3
+"""ThonnyFlake8, adds flake8 warnings to Thonny"""
 import logging
 import re
+import subprocess
+
+from thonny import get_workbench, ui_utils
+from thonny.assistance import SubprocessProgramAnalyzer, add_program_analyzer
 
 
 def processFlakeOutput(line):
+    """Breaks output of the flake8 command into filename, line, col, and explanation"""
     regexForSplitting = (
         r"(?P<filename>.*?)\:(?P<line>\d+)\:"
         + r"(?P<col>\d+)\: (?P<explanation>.\d+ .*)"
@@ -19,20 +23,15 @@ def processFlakeOutput(line):
     )
 
 
-def getCurrentFile():
-    thonnyEditor = get_workbench().get_editor_notebook().get_current_editor()
-    if thonnyEditor is None:
-        return None
-    else:
-        return thonnyEditor.get_filename()
+class Flake8Analyzer(SubprocessProgramAnalyzer):
+    """The analyzer itself"""
 
-
-class flake8Analyzer(SubprocessProgramAnalyzer):
     def is_enabled(self):
+        """Returns if the user has the option enabled"""
         return get_workbench().get_option("assistance.use_flake8")
 
     def start_analysis(self, main_file_path, imported_file_paths):
-
+        """Runs flake8 on the currently open file."""
         self._proc = ui_utils.popen_with_ui_thread_callback(
             ["flake8"] + [main_file_path],
             stdout=subprocess.PIPE,
@@ -42,9 +41,10 @@ class flake8Analyzer(SubprocessProgramAnalyzer):
         )
 
     def _parse_and_output_warnings(self, _, out_lines, err_lines):
+        """Parses the flake8 output and sends it to thonny"""
         warnings = []
         for error in err_lines:
-            logging.getLogger("thonny").error("Flake8: " + error)
+            logging.getLogger("thonny").error("Flake8: %s", error)
 
         for line in out_lines:
             file, line, col, explanation = processFlakeOutput(line.strip())
@@ -62,4 +62,5 @@ class flake8Analyzer(SubprocessProgramAnalyzer):
 
 
 def load_plugin():
-    add_program_analyzer(flake8Analyzer)
+    """Adds the Flake8 analyzer"""
+    add_program_analyzer(Flake8Analyzer)
