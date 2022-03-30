@@ -12,13 +12,14 @@ def processFlakeOutput(line):
     """Breaks output of the flake8 command into filename, line, col, and explanation"""
     regexForSplitting = (
         r"(?P<filename>.*?)\:(?P<line>\d+)\:"
-        + r"(?P<col>\d+)\: (?P<explanation>.\d+ .*)"
+        + r"(?P<col>\d+)\: (?P<id>.\d+) (?P<explanation>.*)"
     )
     matches = re.match(regexForSplitting, line)
     return (
         matches.group("filename"),
         matches.group("line"),
         matches.group("col"),
+        matches.group("id"),
         matches.group("explanation"),
     )
 
@@ -28,7 +29,10 @@ class Flake8Analyzer(SubprocessProgramAnalyzer):
 
     def is_enabled(self):
         """Returns if the user has the option enabled"""
-        return get_workbench().get_option("assistance.use_flake8")
+        enabled = get_workbench().get_option("assistance.use_flake8")
+        if enabled == None:
+            enabled = True
+        return enabled
 
     def start_analysis(self, main_file_path, imported_file_paths):
         """Runs flake8 on the currently open file."""
@@ -47,16 +51,18 @@ class Flake8Analyzer(SubprocessProgramAnalyzer):
             logging.getLogger("thonny").error("Flake8: %s", error)
 
         for line in out_lines:
-            file, line, col, explanation = processFlakeOutput(line.strip())
-            atts = {}
-            atts["explanation"] = explanation
-            atts["explanation_rst"] = explanation
-            atts["filename"] = file
-            atts["lineno"] = int(line)
-            atts["col_offset"] = int(col)
-            atts["msg"] = explanation
+            file, line, col, warnId, explanation = processFlakeOutput(line.strip())
+            if warnId.strip() != "F401":
+                # Ignores error F401 because thonny already handles.
+                atts = {}
+                atts["explanation"] = explanation
+                atts["explanation_rst"] = explanation
+                atts["filename"] = file
+                atts["lineno"] = int(line)
+                atts["col_offset"] = int(col)
+                atts["msg"] = explanation
 
-            warnings.append(atts)
+                warnings.append(atts)
 
         self.completion_handler(self, warnings)
 
