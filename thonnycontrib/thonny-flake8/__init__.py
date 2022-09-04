@@ -1,5 +1,5 @@
 #!/bin/env python3
-"""ThonnyFlake8, adds flake8 warnings to Thonny"""
+"""Thonny-flake8, adds flake8 warnings to Thonny"""
 import logging
 import re
 import subprocess
@@ -53,7 +53,7 @@ class Flake8Analyzer(SubprocessProgramAnalyzer):
         for line in out_lines:
             file, line, col, warnId, explanation = processFlakeOutput(line.strip())
             if warnId.strip() != "F401":
-                # Ignores error F401 because thonny already handles.
+                # Ignores F401 because Thonny handles already unused imports.
                 atts = {}
                 atts["explanation"] = explanation
                 atts["explanation_rst"] = explanation

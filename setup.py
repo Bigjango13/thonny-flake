@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ThonnyFlake8",
+    name="thonny-flake",
     version="1.0.3",
     author="Bigjango13",
-    description="A plugin that adds flake8 to the Thonny python IDE.",
+    description="A plugin that adds flake8 warnings to the Thonny Python IDE.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/bigjango13/ThonnyFlake8",
-    packages=["thonnycontrib.ThonnyFlake8"],
+    url="https://github.com/bigjango13/thonny-flake8",
+    packages=["thonnycontrib.thonny-flake8"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Environment :: Plugins",

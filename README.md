@@ -1,17 +1,17 @@
-# ThonnyFlake8
-A [Thonny](https://github.com/thonny/thonny) plugin to add [flake8](https://github.com/PyCQA/flake8) warnings.
+# thonny-flake8
+A [Thonny](https://github.com/thonny/thonny) plugin to add most of [flake8](https://github.com/PyCQA/flake8)'s warnings (all except [F401](https://www.flake8rules.com/rules/F401.html) because Thonny already warns when imported modules are unused).
 
 ## Installing
 To install from pip3 using a terminal (or Powershell for Windows users)
 ```bash
-pip3 install ThonnyFlake8
+pip3 install thonny-flake
 # Or
-python3 -m pip install 
+python3 -m pip install thonny-flake
 ```
 
 To install directly from Thonny:
 1. Click "Tools" and then click "Manage Plug-ins..."
-2. Search for "ThonnyFlake8" in the input box.
+2. Search for "thonny-flake8" in the input box.
 3. Click install.
 
 After installing you will need to restart Thonny.
