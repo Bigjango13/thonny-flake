@@ -10,7 +10,7 @@ setuptools.setup(
     description="A plugin that adds flake8 warnings to the Thonny Python IDE.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/bigjango13/thonny-flake8",
+    url="https://github.com/bigjango13/thonny-flake",
     packages=["thonnycontrib.thonny-flake8"],
     classifiers=[
         "Programming Language :: Python :: 3",
