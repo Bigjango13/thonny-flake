@@ -5,13 +5,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="thonny-flake",
-    version="1.0.3",
+    version="1.0.5",
     author="Bigjango13",
     description="A plugin that adds flake8 warnings to the Thonny Python IDE.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/bigjango13/thonny-flake",
-    packages=["thonnycontrib.thonny-flake8"],
+    url="https://github.com/Bigjango13/thonny-flake",
+    packages=["thonnycontrib.thonny-flake"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Environment :: Plugins",

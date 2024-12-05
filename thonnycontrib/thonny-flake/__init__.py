@@ -1,5 +1,5 @@
 #!/bin/env python3
-"""Thonny-flake8, adds flake8 warnings to Thonny"""
+"""Thonny-flake, adds flake8 warnings to Thonny"""
 import logging
 import re
 import subprocess
@@ -9,7 +9,14 @@ from thonny.assistance import SubprocessProgramAnalyzer, add_program_analyzer
 
 
 def processFlakeOutput(line):
-    """Breaks output of the flake8 command into filename, line, col, and explanation"""
+    """
+        Breaks output of the flake8 command into:
+        - filename
+        - line
+        - column
+        - id
+        - reason
+    """
     regexForSplitting = (
         r"(?P<filename>.*?)\:(?P<line>\d+)\:"
         + r"(?P<col>\d+)\: (?P<id>.\d+) (?P<explanation>.*)"
@@ -36,8 +43,9 @@ class Flake8Analyzer(SubprocessProgramAnalyzer):
 
     def start_analysis(self, main_file_path, imported_file_paths):
         """Runs flake8 on the currently open file."""
+        # This is terrible, but so is the flake8 API
         self._proc = ui_utils.popen_with_ui_thread_callback(
-            ["flake8"] + [main_file_path],
+            ["python3", "-m", "flake8", main_file_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True,
@@ -51,9 +59,11 @@ class Flake8Analyzer(SubprocessProgramAnalyzer):
             logging.getLogger("thonny").error("Flake8: %s", error)
 
         for line in out_lines:
-            file, line, col, warnId, explanation = processFlakeOutput(line.strip())
+            out = processFlakeOutput(line.strip())
+            file, line, col, warnId, explanation = out
+            # Ignores F401 because Thonny handles already unused imports.
             if warnId.strip() != "F401":
-                # Ignores F401 because Thonny handles already unused imports.
+                explanation = warnId.strip() + ": " + explanation
                 atts = {}
                 atts["explanation"] = explanation
                 atts["explanation_rst"] = explanation
