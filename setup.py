@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="thonny-flake",
-    version="1.0.5",
+    version="1.0.6",
     author="Bigjango13",
     description="A plugin that adds flake8 warnings to the Thonny Python IDE.",
     long_description=long_description,

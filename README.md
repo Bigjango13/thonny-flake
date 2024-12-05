@@ -20,7 +20,7 @@ Either way, after installing you will need to restart Thonny for the changes to 
 
 ### "The assistant menu is blank/not showing"
 
-The warnings may not show if the file you are running is '<untitled>', save the file and try again. If not, look at the option below.
+The warnings may not show if the file you are running is '\<untitled\>', save the file and try again. If not, look at the option below.
 
 ### "It doesn't show warnings!"
 
